@@ -19,6 +19,7 @@ class Card(models.Model):
     shift_365 = models.FloatField()
     updated_at = models.DateTimeField()
     card_image = models.ImageField(upload_to='images/', default='images/default_image.jpeg')
+    is_favorite = models.BooleanField(default=False)
 
     def __str__(self):
         return self.card

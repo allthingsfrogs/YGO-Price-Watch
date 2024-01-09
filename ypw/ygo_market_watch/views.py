@@ -33,6 +33,7 @@ def getImageAPI(self, card_name):
     result = fetch_card_image(card_name)
     return HttpResponse('Card info updated.')
 
+
 # instead of constanly calling api, we can periodically use getCardAPI to update DB
 def getUserCard(request):
     query = request.GET.get('q')
