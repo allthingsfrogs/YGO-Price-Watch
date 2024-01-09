@@ -1,0 +1,35 @@
+{% extends 'ygo_market_watch/home.html' %}
+
+<head>
+    <title>Search Results</title>
+</head>
+
+<body>
+    {% block content %}
+        {% if card %}
+            <img src="{{ card_image }}" alt="Card Image">
+        {% else %}
+            <p>No image available.</p>
+        {% endif %}
+
+        {% if card %}
+            <!--    {{ card|length }} cards found. -->
+            <h1>Search Results for "{{ card_name }}"</h1>
+            {% for c in card %}
+                <ul>
+                    <li>
+                        <strong>Card:</strong> {{ c.Card_name }}<br>
+                        <strong>Print Tag:</strong> {{ c.print_tag }}<br>
+                        <strong>Set Name:</strong> {{ c.name_of_set }}<br>
+                        <strong>Average Price:</strong> {{ c.average_price }}<br>
+                    </li>
+                </ul>
+            {% endfor %}
+        {% else %}
+            <!-- Handle the case when no card is found -->
+            No card found for the given query.
+        {% endif %}
+    
+{% endblock %}
+</body>
+</html>

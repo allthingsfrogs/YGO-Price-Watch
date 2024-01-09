@@ -1,0 +1,33 @@
+{% extends 'ygo_market_watch/home.html' %}
+<!DOCTYPE html>
+<html lang="en">
+    
+{% block title %}
+    YGO Price Checker
+{% endblock %}
+
+{% block content %}
+    <h1>Cards!</h1>
+    
+    <ul>
+    {% for card in data %}
+    <li>
+        <strong>Card:</strong> {{ card.Card_name }}<br>
+        <strong>Print Tag:</strong> {{ card.print_tag }}<br>
+        <strong>Rarity:</strong> {{ card.rarity }}<br>
+        <strong>High Price:</strong> {{ card.high_price }}<br>
+        <strong>Low Price:</strong> {{ card.low_price }}<br>
+        <strong>Average Price:</strong> {{ card.average_price }}<br>
+        <strong>Shift:</strong> {{ card.shift }}<br>
+        <strong>Shift 3:</strong> {{ card.shift_3 }}<br>
+        <strong>Shift 7:</strong> {{ card.shift_7 }}<br>
+        <strong>Shift 30:</strong> {{ card.shift_30 }}<br>
+        <strong>Shift 90:</strong> {{ card.shift_90 }}<br>
+        <strong>Shift 180:</strong> {{ card.shift_180 }}<br>
+        <strong>Shift 365:</strong> {{ card.shift_365 }}<br>
+        <strong>Updated At:</strong> {{ card.updated_at }}<br>
+    </li>
+    {% endfor %}
+    </ul>
+
+{% endblock %}

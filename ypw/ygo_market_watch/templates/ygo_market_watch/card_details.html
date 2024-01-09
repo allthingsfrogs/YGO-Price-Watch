@@ -1,0 +1,12 @@
+{% extends 'ygo_market_watch/home.html' %}
+
+<body>
+{%block content %}
+
+    <h1> Card: {{ card.Card_name }}</h1>
+    <p>Set: {{ card.name_of_set }}</p>
+    <p>Average Price: {{ card.average_price }}</p>
+
+{% endblock content %}
+</body>
+</html>
