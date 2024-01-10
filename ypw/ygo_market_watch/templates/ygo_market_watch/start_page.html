@@ -19,6 +19,11 @@
                             <strong>Set Name:</strong> {{ c.name_of_set }}<br>
                             <strong>Average Price:</strong> {{ c.average_price }}<br>
                         </li>
+                        <form method="post" action="{% url 'makeFavCard' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="print_tag" value="{{ c.print_tag }}">
+                            <button type="submit">Favorite</button>
+                        </form>
                 {% endfor %}
             </ul>
         {% else %}

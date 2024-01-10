@@ -109,24 +109,27 @@ def fetch_card_print_tag(print_tag):
         print('Failed to fetch card info')
 
 def fetch_card_image(card_name):
-    #check if the card image is in DB 
+    #check if the card is in DB 
     card = Card.objects.filter(Card_name__icontains=card_name).first()
-
-    #if it doesnt exist or if the image field is empty, use API call to put card/image in DB
-    if card is None or not card.card_image:
+    #if it doesnt exist in DB use API call to put card in DB
+    if card is None:
         #put card in DB
         fetch_card_info(card_name)
 
-    #rest of code puts image in DB
-    url = f'http://yugiohprices.com/api/card_image/{card_name}'
-    response = requests.get(url)
-    #save it do DB, return image data so it can pass it to variable in views.getUserCard
-    if response.status_code == 200:
-        card = Card.objects.filter(Card_name__icontains=card_name).first()
-        if card:
-            card.card_image.save(f'{card_name}_image.jpeg', ContentFile(response.content), save=True)
-            image_url = card.card_image.url
-            return image_url
-    #####
-    #check if card is using default image, if it is then save, if not then just retrieve image url for the card    
-    #####
+    #if the card exists in DB but uses default image, API call to get it's image in DB
+    if card.card_image.name == 'images/default_image.jpeg':
+        #rest of code puts image in DB
+        url = f'http://yugiohprices.com/api/card_image/{card_name}'
+        response = requests.get(url)
+        if response.status_code == 200:
+            card = Card.objects.filter(Card_name__icontains=card_name).first()
+            if card:
+                #save it to DB, return image data so it can pass it to variable in views.getUserCard
+                card.card_image.save(f'{card_name}_image.jpeg', ContentFile(response.content), save=True)
+                image_url = card.card_image.url
+                return image_url
+   
+    #the card and its image exists in DB, return it to views.getUserCard, no API call needed
+    else:
+        image_url = card.card_image.url
+        return image_url
