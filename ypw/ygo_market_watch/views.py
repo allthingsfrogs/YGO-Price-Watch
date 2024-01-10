@@ -2,12 +2,10 @@ import requests
 from ygo_market_watch.models import Card
 from django.http import HttpResponse
 from django.template import loader
-from .api_retrieve import fetch_card_info
-from .api_retrieve import fetch_card_print_tag
-from .api_retrieve import fetch_card_image
+from .api_retrieve import fetch_card_info, fetch_card_print_tag, fetch_card_image
 from django.views.decorators.csrf import csrf_exempt
-from django.shortcuts import render
-from django.db.models import Q
+from django.shortcuts import render, get_object_or_404
+#from django.db.models import Q
 
 def start_page(request):
 #get data for all cards, pass into template for start_page
@@ -16,23 +14,32 @@ def start_page(request):
     template = loader.get_template('ygo_market_watch/start_page.html')
     return HttpResponse(template.render(context, request))
 
-#calls script in api_retrieve.py to fetch card info from API database
+#calls script in api_retrieve.py to fetch card info from API database, using card's name
 @csrf_exempt
-def getCardAPI(self, user_card):
-    result = fetch_card_info(user_card)
+def getCardAPI(self, card_name): #was "user_card"
+    result = fetch_card_info(card_name)
     return HttpResponse('Card info updated.')
 
+#calls script in api_retrieve.py to fetch card info from API database, using print_tag
 @csrf_exempt
 def getCardTagAPI(self, print_tag):
     result = fetch_card_print_tag(print_tag)
     return HttpResponse('Card info updated.')
+
+@csrf_exempt
+def getFavCards(self, request):
+    # Query DB to get all cards user has favorited (is_favorite=True)
+    favorite_cards = Card.objects.filter(is_favorite=True)
+    # Pass queried cards to the template
+    context = {'favorite_cards': favorite_cards}
+    return render(request, 'ygo_market_watch/start_page.html', context)
+
 
 #calls script in api_retrieve.py to fetch card image
 @csrf_exempt
 def getImageAPI(self, card_name):
     result = fetch_card_image(card_name)
     return HttpResponse('Card info updated.')
-
 
 # instead of constanly calling api, we can periodically use getCardAPI to update DB
 def getUserCard(request):
@@ -78,5 +85,13 @@ def getUserCard(request):
     }
     return render(request, 'ygo_market_watch/search_result.html', context=context)
 
-#view for comparing cards via a "is_fav" card field on the model being marked T/F
-#display on a view depending on if T/F
+
+def makeFavCard(request):
+    if request.method == 'POST':
+        print_tag = request.POST.get('print_tag', '')
+        card_object = get_object_or_404(Card, print_tag = print_tag)
+        # Toggle the is_favorite boolean field
+        card_object.is_favorite = not card_object.is_favorite
+        card_object.save()
+    #return render(request, 'ygo_market_watch/search_result.html')
+    return render(request, 'ygo_market_watch/start_page.html')
