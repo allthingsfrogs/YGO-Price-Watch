@@ -10,7 +10,21 @@
     <body> 
         <p>Search for Yu-Gi-Oh cards using its name or set ID, and favorite the cards who's price you'd like to keep a close eye on!<br>
             Favorited Cards will be displayed on the home page to easily compare with other cards, and can be removed by unfavoriting.<p/>
-    <body>
+        {% if data %}
+            <ul>
+                {% for c in data %}
+                        <li>
+                            <strong>Card:</strong> {{ c.Card_name }}<br>
+                            <strong>Print Tag:</strong> {{ c.print_tag }}<br>
+                            <strong>Set Name:</strong> {{ c.name_of_set }}<br>
+                            <strong>Average Price:</strong> {{ c.average_price }}<br>
+                        </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No favorite cards found.</p>
+        {% endif %}
+     <body>
 
 
 {% endblock %}
