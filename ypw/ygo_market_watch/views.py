@@ -8,15 +8,28 @@ from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, get_object_or_404
 #from django.db.models import Q
 
-def start_page(request):
-#get data for all cards, pass into template for start_page
-    #data_from_database = Card.objects.all()
-    
-    #get data for cards marked as favorite, dispaly on home page
+    #everytime the start page is loaded up, a new dictionary is made and populated with the
+    #relevant cards before being displayed. I should move this into my scripts file api.retrieve
+    #and only update the dictiornary holding cards/images when a new card is added
+    #but this works ok for now 
+def start_page (request):
+    #initialize dictionary to hold card object + image
+    cards_with_images = {}
+    #get data for cards marked as favorite to display on home page
     data_from_database = Card.objects.filter(is_favorite=True)
     context = {'data': data_from_database}
-    template = loader.get_template('ygo_market_watch/start_page.html')
-    return HttpResponse(template.render(context, request))
+    #get urls for images for cards marked as favorite, store in dict w/ card itself as key
+    for card in context.get('data'):
+        #get the name of each card in 'data'
+        card_name = card.Card_name
+        #pass it to my function in api.retrive that returns card.card_image.url
+        card_image = fetch_card_image(card_name)
+        #map it to the card 
+        cards_with_images[card] = card_image
+
+    #pass this dict to HTML through context
+    images = { 'cards_with_images' : cards_with_images}    
+    return render(request, 'ygo_market_watch/start_page.html', context=images)
 
 #calls script in api_retrieve.py to fetch card info from API database, using card's name
 @csrf_exempt
@@ -24,22 +37,19 @@ def getCardAPI(self, card_name): #was "user_card"
     result = fetch_card_info(card_name)
     return HttpResponse('Card info updated.')
 
-
 #calls script in api_retrieve.py to fetch card info from API database, using print_tag
 @csrf_exempt
 def getCardTagAPI(self, print_tag):
     result = fetch_card_print_tag(print_tag)
     return HttpResponse('Card info updated.')
 
-
 @csrf_exempt
 def getFavCards(request):
     # Query DB to get all cards user has favorited (is_favorite=True)
     favorite_cards = Card.objects.filter(is_favorite=True)
     # Pass queried cards to the template
-    context2 = {'favorite_cards': favorite_cards}
-    return render(request, 'ygo_market_watch/start_page.html', context=context2)
-
+    context = {'favorite_cards': favorite_cards}
+    return render(request, 'ygo_market_watch/start_page.html', context=context)
 
 #calls script in api_retrieve.py to fetch card image
 @csrf_exempt
@@ -47,19 +57,18 @@ def getImageAPI(self, card_name):
     result = fetch_card_image(card_name)
     return HttpResponse('Card info updated.')
 
-
 # instead of constanly calling api, we can periodically use getCardAPI to update DB
 def getUserCard(request):
     query = request.GET.get('q')
     card_name = ''
     #check current time vs updated time on object, update price depending on desired time 
     if query:
-        #check if user searched by print_tag and if this exists in DB, pass to HMTL
+        #check if user searched by print_tag and if this exists in DB, pass that card's name to HMTL
         if Card.objects.filter(print_tag = query).exists():
             card_object = Card.objects.filter(print_tag = query)
             inter = card_object.first()
             card_name = inter.Card_name
-        #check if user searched by card_name and if this exists in DB, pass to HTML
+        #check if user searched by card_name and if this exists in DB, pass card_name to HTML
         elif Card.objects.filter(Card_name__icontains=query).exists():
             card_object = Card.objects.filter(Card_name__icontains=query)
             card_name = query

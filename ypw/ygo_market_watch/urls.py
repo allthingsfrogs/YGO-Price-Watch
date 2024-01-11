@@ -15,6 +15,4 @@ urlpatterns = [
     path('getCardTagAPI/<str:print_tag>/', getCardTagAPI, name='getCardTagAPI'),
     path('makeFavCard/', makeFavCard, name='makeFavCard')
     
-    #add url for view of favorite cards
-
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

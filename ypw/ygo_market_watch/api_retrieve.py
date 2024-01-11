@@ -124,12 +124,17 @@ def fetch_card_image(card_name):
         if response.status_code == 200:
             card = Card.objects.filter(Card_name__icontains=card_name).first()
             if card:
-                #save it to DB, return image data so it can pass it to variable in views.getUserCard
+                #save card image to /media
                 card.card_image.save(f'{card_name}_image.jpeg', ContentFile(response.content), save=True)
-                image_url = card.card_image.url
+                image_url = card.card_image.url 
+                #save card image in model
+                card.save()
+                
                 return image_url
    
     #the card and its image exists in DB, return it to views.getUserCard, no API call needed
     else:
+        card = Card.objects.filter(Card_name__icontains=card_name).first()
         image_url = card.card_image.url
+
         return image_url
