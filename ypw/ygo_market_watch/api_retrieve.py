@@ -108,6 +108,7 @@ def fetch_card_print_tag(print_tag):
     else:
         print('Failed to fetch card info')
 
+#get card image from YugiohPrices API using card's name, store in DB
 def fetch_card_image(card_name):
     #check if the card is in DB 
     card = Card.objects.filter(Card_name__icontains=card_name).first()

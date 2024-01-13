@@ -76,7 +76,7 @@ def getUserCard(request):
         #if it doesnt exist in DB, check how user queried for card and use API call to put into DB
         #THEN gather data to pass to HTML through context
         else:
-            #if user queried via print tag
+            #if user queried via print tag; print tag is 3-5 capital chars and 3 digits seperated by a '-'
             if all(char.isupper() or char.isdigit() or char == '-' for char in query):
                 fetch_card_print_tag(query)
                 card_object = Card.objects.filter(print_tag = query)
@@ -99,7 +99,7 @@ def getUserCard(request):
     }
     return render(request, 'ygo_market_watch/search_result.html', context=context)
 
-
+#gives functionality to the "favorite" button
 def makeFavCard(request):
     if request.method == 'POST':
         print_tag = request.POST.get('print_tag', '')
