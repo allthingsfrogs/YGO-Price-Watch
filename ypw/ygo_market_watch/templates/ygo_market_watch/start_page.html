@@ -1,16 +1,48 @@
-{% extends 'ygo_market_watch/home.html' %}
+{% extends 'ygo_market_watch/base.html' %}
 
 {% block title %}
     YGO Price Checker
 {% endblock %}
 
 {% block content %}
-    <h1>YGO Price Checker</h1>  
-
+    <div class="container-fluid p-4 my-1 bg-light text-black" style="text-align: center;">
+        <h1>YGO Price Checker</h1>  
+    </div>
     <body> 
+        <div class="container-fluid p-4 my-1 bg-light text-black" style="text-align: center;">
         <p>Search for Yu-Gi-Oh cards using its name or set ID, and favorite the cards who's price you'd like to keep a close eye on!<br>
             Favorited Cards will be displayed on the home page to easily compare with other cards, and can be removed by unfavoriting.<p/>
-        {% if cards_with_images %}
+        </div>
+            {% if cards_with_images %}
+            <div class="container-fluid p-4 my-1 bg-light text-white">
+            <div class="row row-cols-1 row-cols-sm-5 g-4">
+                {% for c, card_image in cards_with_images.items %}
+                 
+                    <div class="col">
+                        <div class="card">
+                            <img src="{{ card_image }}" class="card-img-top" alt="Card Image">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ c.Card_name }}</h5>
+                                <p class="card-text">
+                                    <strong>Print Tag:</strong> {{ c.print_tag }}<br>
+                                    <strong>Set Name:</strong> {{ c.name_of_set }}<br>
+                                    <strong>Average Price:</strong> {{ c.average_price }}<br>
+                                </p>
+                                <form method="post" action="{% url 'makeFavCard' %}">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="print_tag" value="{{ c.print_tag }}">
+                                    <button type="submit" class="btn btn-primary">Favorite</button>
+                                </form>
+                            </div>
+                        </div>
+            
+                    </div>
+                {% endfor %}
+            </div>
+            </div>
+            {% endif %}
+         
+    <!--    {% if cards_with_images %}
             <ul>
                 {% for c, card_image in cards_with_images.items %}
                         <img src="{{ card_image }}" alt="Card Image">
@@ -30,6 +62,7 @@
         {% else %}
             <p>No favorite cards found.</p>
         {% endif %}
+        -->
      <body>
 
 
