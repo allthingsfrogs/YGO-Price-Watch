@@ -12,7 +12,8 @@ def fetch_card_info(card_name):
 
     if response.status_code == 200:
         data = response.json()
-        for item in data['data']:
+        #for item in data['data']:
+        for item in data.get('data', []):
             price_data = item.get('price_data', {})
             prices = price_data.get('data', {}).get('prices', {})
             high_price = prices.get('high', 0.0) 
@@ -62,7 +63,9 @@ def fetch_card_print_tag(print_tag):
             name = card_data.get('name')
             price_data = card_data.get('price_data', {})
             if price_data:
-                set_info = price_data.get('data', {})
+                print_tag = price_data.get('print_tag') #
+                #set_info = price_data.get('data', {}) 
+                set_info = price_data.get('price_data', {})
                 if set_info:
                     prices = set_info.get('prices', {})
                     high_price = prices.get('high', 0.0)
@@ -82,9 +85,12 @@ def fetch_card_print_tag(print_tag):
 
                     Card.objects.create(
                         Card_name=name,
-                        name_of_set=set_info.get('name'),
-                        print_tag=set_info.get('print_tag'),
-                        rarity=set_info.get('rarity'),
+                        #name_of_set=set_info.get('name'),
+                        name_of_set=price_data.get('name'),
+                        #print_tag=set_info.get('print_tag'),
+                        print_tag=price_data.get('print_tag'),
+                        #rarity=set_info.get('rarity'),
+                        rarity=price_data.get('rarity'),
                         high_price=high_price,
                         low_price=low_price,
                         average_price=average,
@@ -107,6 +113,7 @@ def fetch_card_print_tag(print_tag):
             print('Failed to fetch card data')
     else:
         print('Failed to fetch card info')
+
 
 #get card image from YugiohPrices API using card's name, store in DB
 def fetch_card_image(card_name):

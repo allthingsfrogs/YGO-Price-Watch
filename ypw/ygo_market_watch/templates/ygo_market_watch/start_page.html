@@ -6,7 +6,7 @@
 
 {% block content %}
     <body class="mt-5">
-    <div class="container-fluid p-3 my-1 bg-light text-black" style="text-align: center;">
+    <div class="container-fluid p-1 my-1 text-black custom-background-header" style="text-align: center;">
         <h1>YGO Price Checker</h1> 
         <p> <br> </p> 
         <p>Search for Yu-Gi-Oh cards using its name or set ID, and favorite the cards who's price you'd like to keep a close eye on!<br>
@@ -15,8 +15,8 @@
     <body>
     <body> 
         {% if cards_with_images %}
-        <div class="container-fluid p-2 my-2 bg-light text-black">
-        <div class="row row-cols-1 row-cols-sm-5 g-1">
+        <div class="container-fluid p-1 my-1 text-black">
+            <div class="row row-cols-1 row-cols-sm-5 g-1 custom-background">
             {% for c, card_image in cards_with_images.items %}
                 <div class="col">
                     <div class="card">
@@ -38,7 +38,7 @@
                     </div>
                 </div>
             {% endfor %}
-        </div>
+            </div>
         </div>
         {% endif %}
      <body>

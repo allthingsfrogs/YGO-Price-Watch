@@ -76,12 +76,13 @@ def getUserCard(request):
         #if it doesnt exist in DB, check how user queried for card and use API call to put into DB
         #THEN gather data to pass to HTML through context
         else:
-            #if user queried via print tag; print tag is 3-5 capital chars and 3 digits seperated by a '-'
+            #if user queried via print tag; print tag is 3-5 capital chars and 3-5 digits seperated by a '-'
             if all(char.isupper() or char.isdigit() or char == '-' for char in query):
                 fetch_card_print_tag(query)
-                card_object = Card.objects.filter(print_tag = query)
+                card_object = Card.objects.filter(print_tag=query)
                 inter = card_object.first()
                 card_name = inter.Card_name
+                fetch_card_info(card_name)
             #if user queried via card name
             else:
                 fetch_card_info(query)

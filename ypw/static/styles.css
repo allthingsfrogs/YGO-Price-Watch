@@ -1,9 +1,7 @@
 .search-bar {
     label {
         display: block;
-        font:
-          1rem 'Fira Sans',
-          sans-serif;
+        font-family: "Lucida Console", "Courier New", monospace;
       }
       
       input,
