@@ -6,35 +6,44 @@
 
 {% block content %}
     <body class="mt-5">
-    <div class="container-fluid p-1 my-1 text-black custom-background-header" style="text-align: center;">
+    <div class="container-fluid p-1 text-black custom-background-header" style="text-align: center;">
+        <br>
+        <br>
         <h1>YGO Price Checker</h1> 
-        <p> <br> </p> 
+        <p> </p> 
         <p>Search for Yu-Gi-Oh cards using its name or set ID, and favorite the cards who's price you'd like to keep a close eye on!<br>
             Favorited cards will be displayed on the home page to easily compare with other cards, and can be removed by unfavoriting.<p/>
     </div>
     <body>
     <body> 
         {% if cards_with_images %}
-        <div class="container-fluid p-1 my-1 text-black">
+        <div class="container-fluid p-1 text-black" style="background-color: #101426;">
             <div class="row row-cols-1 row-cols-sm-5 g-1 custom-background">
             {% for c, card_image in cards_with_images.items %}
                 <div class="col">
-                    <div class="card">
+                    <div class="card"> <!---->
                         <img src="{{ card_image }}" class="card-img-top" alt="Card Image">
-                            <div class="card-body d-flex flex-column">
+                        <div class="card-body d-flex flex-column card-body-custom">
                             <h4 class="card-title">{{ c.Card_name }}</h4><br>
                             <p class="card-text">
                                 <strong>Print Tag:</strong><br>{{ c.print_tag }}<br>
                                 <strong>Set Name:</strong> {{ c.name_of_set }}<br>
                                 <strong>Average Price:</strong><br>
                                 <strong>$</strong>{{ c.average_price }}<br>
+                                <strong>7 Days Price Change:</strong> 
+                                <br> {{ c.shift_7 }}<br>
+                                <strong>30 Days Price Change:</strong> 
+                                <br> {{ c.shift_30 }}<br>
                             </p>
-                            <form method="post" action="{% url 'makeFavCard' %}">
-                            {% csrf_token %}
-                                <input type="hidden" name="print_tag" value="{{ c.print_tag }}">
-                                <button type="submit" class="btn btn-primary">Favorite</button>
-                            </form>
                         </div>
+                            <div class="d-flex justify-content-end">
+                                <form method="post" action="{% url 'makeFavCard' %}">
+                                    {% csrf_token %}
+                                        <input type="hidden" name="print_tag" value="{{ c.print_tag }}">
+                                        <button type="submit" class="custom-button1">Unfav</button>
+                                </form>
+                            </div>
+                        
                     </div>
                 </div>
             {% endfor %}

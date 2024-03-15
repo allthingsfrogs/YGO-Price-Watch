@@ -5,16 +5,58 @@
 </head>
 
 <body>
-
+    
     {% block content %}
-        {% if card %}
-            <img src="{{ card_image }}" alt="Card Image">
+    <!--    {% if card %}
+            <img src="{{ card_image }}" width="100" height="225" alt="Card Image">
         {% else %}
             <p>No image available.</p>
         {% endif %}
-
+    -->
         {% if card %}
+        <body class="mt-5">
+        <br>
+        <br>
+        <div class="container-fluid p-1 text-black custom-background-header" style="text-align: center;">
+            <h1>Search Results</h1> 
+        </div>
+        </body> 
+        <div class="container-fluid p-0 my-3 text-black">
+            <div class="row row-cols-2 row-cols-sm-3 row-cols-md-5 g-2 custom-background">
             {% for c in card %}
+                <div class="col">
+                    <div class="card">
+                        <img src="{{ card_image }}" class="card-img-top" alt="Card Image">
+                            <div class="card-body-results-custom d-flex flex-column">
+                                <h4 class="card-title">{{ c.Card_name }}</h4><br>
+                                <p class="card-text">
+                                    <strong>Print Tag:</strong><br>{{ c.print_tag }}<br>
+                                    <strong>Set Name:</strong> {{ c.name_of_set }}<br>
+                                    <strong>Average Price:</strong><br>
+                                    <strong>$</strong>{{ c.average_price }}<br>
+                                    <strong>High Price:</strong><br>
+                                    <strong>$</strong>{{ c.high_price }}<br>                                    
+                                    <strong>Low Price:</strong><br>
+                                    <strong>$</strong>{{ c.low_price }}<br>
+                                    <strong>7 Days Price Change:</strong> 
+                                    <br> {{ c.shift_7 }}<br>
+                                    <strong>30 Days Price Change:</strong> 
+                                    <br> {{ c.shift_30 }}<br>
+                                </p>
+                            </div>
+                                <div class="d-flex justify-content-end">
+                                <form method="post" action="{% url 'makeFavCard' %}">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="print_tag" value="{{ c.print_tag }}">
+                                    <button type="submit" class="custom-button1">Fav</button>
+                                </form>
+                                </div>
+                    </div>
+                </div>
+            {% endfor %}
+            </div>
+        </div>
+            <!--{% for c in card %}
                 <ul>
                     <li>
                         <strong>Card:</strong> {{ c.Card_name }}<br>
@@ -37,8 +79,8 @@
                     <button type="submit">Favorite</button>
                 </form>
             {% endfor %}
+            -->
         {% else %}
-            <!-- Handle the case when no card is found -->
             No card found for the given query.
         {% endif %}
     
