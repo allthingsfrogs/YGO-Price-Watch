@@ -7,12 +7,7 @@
 <body>
     
     {% block content %}
-    <!--    {% if card %}
-            <img src="{{ card_image }}" width="100" height="225" alt="Card Image">
-        {% else %}
-            <p>No image available.</p>
-        {% endif %}
-    -->
+        
         {% if card %}
         <body class="mt-5">
         <br>
@@ -56,30 +51,7 @@
             {% endfor %}
             </div>
         </div>
-            <!--{% for c in card %}
-                <ul>
-                    <li>
-                        <strong>Card:</strong> {{ c.Card_name }}<br>
-                        <strong>Print Tag:</strong> {{ c.print_tag }}<br>
-                        <strong>Set Name:</strong> {{ c.name_of_set }}<br>
-                        <strong>Average Price:</strong> {{ c.average_price }}<br>
-                        <strong>High Price:</strong> {{ c.high_price }}<br>
-                        <strong>Low Price:</strong> {{ c.low_price }}<br>
-                        <strong>Shift:</strong> {{ c.shift }}<br>
-                        <strong>Shift 3:</strong> {{ c.shift_3 }}<br>
-                        <strong>Shift 7:</strong> {{ c.shift_7 }}<br>
-                        <strong>Shift 30:</strong> {{ c.shift_30 }}<br>
-                        <strong>Updated At:</strong> {{ c.updated_at }}<br>
-                        <strong>Favorite:</strong> {{ c.is_favorite}}<br>
-                    </li>
-                </ul>
-                <form method="post" action="{% url 'makeFavCard' %}">
-                    {% csrf_token %}
-                    <input type="hidden" name="print_tag" value="{{ c.print_tag }}">
-                    <button type="submit">Favorite</button>
-                </form>
-            {% endfor %}
-            -->
+           
         {% else %}
             No card found for the given query.
         {% endif %}

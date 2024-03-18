@@ -57,14 +57,14 @@ input[type=text] {
 }
 
 .card-body-custom {
-  height: 380px; /* Adjust the height as per your requirement */
+  height: 395px; 
   overflow: hidden;
-  text-overflow: ellipsis; /* Optional: Add ellipsis for text overflow */
+  text-overflow: ellipsis; 
 }
 .card-body-results-custom {
-  height: 450px; /* Adjust the height as per your requirement */
+  height: 490px; 
   overflow: hidden;
-  text-overflow: ellipsis; /* Optional: Add ellipsis for text overflow */
+  text-overflow: ellipsis;
 }
 
 .card-container {
@@ -74,17 +74,15 @@ input[type=text] {
 .card {
     width: 285px;
     height: 800px;
-    margin: 14px;
+    margin: 10px;
     padding: 0px;
     border: 2px solid #b6bbed;
     background-color: #dfe1f7;
 }
 
 @media (max-width: 550px) {
-    /* Adjust styles for smaller screens */
     .card {
-        width: 100%; /* Make cards take full width on smaller screens */
-        font-size: 12px; /* Adjust font size as needed */
+        width: 100%;
     }
 }
 .custom-background {
