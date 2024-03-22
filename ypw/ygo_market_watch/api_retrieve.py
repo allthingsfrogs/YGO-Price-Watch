@@ -63,8 +63,7 @@ def fetch_card_print_tag(print_tag):
             name = card_data.get('name')
             price_data = card_data.get('price_data', {})
             if price_data:
-                print_tag = price_data.get('print_tag') #
-                #set_info = price_data.get('data', {}) 
+                print_tag = price_data.get('print_tag')
                 set_info = price_data.get('price_data', {})
                 if set_info:
                     prices = set_info.get('prices', {})

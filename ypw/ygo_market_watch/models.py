@@ -1,6 +1,4 @@
 from django.db import models
-from PIL import Image #Pillow Python imaging library
-
 
 class Card(models.Model):
     Card_name = models.CharField(max_length=255,default='Blue-Eyes White Dragon')
