@@ -2,16 +2,11 @@ import requests
 from ygo_market_watch.models import Card
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
-from django.template import loader
 from .api_retrieve import fetch_card_info, fetch_card_print_tag, fetch_card_image
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, get_object_or_404
-#from django.db.models import Q
 
-    #everytime the start page is loaded up, a new dictionary is made and populated with the
-    #relevant cards before being displayed. I should move this into my scripts file api.retrieve
-    #and only update the dictiornary holding cards/images when a new card is added
-    #but this works ok for now 
+    
 def start_page (request):
     #initialize dictionary to hold card object + image
     cards_with_images = {}
